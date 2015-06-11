@@ -17,7 +17,12 @@ var myFile = new Dockerfile();
 
 // Let's just add in a bunch of funky commands for a bit of fun
 myFile.from("node:0.12.4");
-myFile.run(["apt-get install -y git", "git clone https://github.com/seikho/node-dockerfile /code/node-dockerfile"]);
+
+myFile.run([
+	"apt-get install -y git",
+	"git clone https://github.com/seikho/node-dockerfile /code/node-dockerfile"
+ ]);
+ 
 myFile.run(["cd /code/node-dockerfile", "npm install"]);
 
 // method chaining!
