@@ -17,7 +17,9 @@ declare class DockerFileBuilder {
 	workDir(path: string): DockerFileBuilder;
 	user(user: string): DockerFileBuilder;
 	onBuild(instructions: string): DockerFileBuilder;
-	write(writeLocation: string, replaceExisting: boolean, callback: DockerCallback): void;
+	comment(comment: string): DockerFileBuilder;
+	newLine(): DockerFileBuilder;
+	write(writeLocation: string, replaceExisting: boolean, callback: DockerCallback): void;	
 }
 
 interface DockerCallback {
