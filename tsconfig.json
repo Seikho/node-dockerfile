@@ -8,7 +8,8 @@
         "./src/**/*.ts"
     ],
     "files": [
-        "./src/instructions.ts",
-        "./src/typings/node-dockerfile/node-dockerfile.d.ts"
+        "./src/index.ts",
+        "./src/typings/node-dockerfile/node-dockerfile.d.ts",
+        "./src/typings/node/node.d.ts"
     ]
 }
