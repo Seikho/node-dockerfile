@@ -1,3 +1,5 @@
+var fs = require("fs");
+var path = require("path");
 var Builder = (function () {
     function Builder() {
         this.instructions = [];
@@ -61,17 +63,33 @@ var Builder = (function () {
         this.instructions.push(makeInstruction("ONBUILD", instructions));
         return this;
     };
-    Builder.prototype.write = function (location, replaceExisting) {
-        //TODO: Refactor
-        var file = buildInstructionsString(this.instructions);
-        writeDockerfile(location, replaceExisting);
-        return file;
+    Builder.prototype.write = function (location, replaceExisting, callback) {
+        var content = buildInstructionsString(this.instructions);
+        writeDockerfile(content, location, replaceExisting, callback);
     };
     return Builder;
 })();
-function writeDockerfile(location, replaceExisting) {
+function writeDockerfile(content, location, replaceExisting, callback) {
     if (!location)
         return;
+    var location = path.join(path.resolve(location), "Dockerfile");
+    fs.readFile(location, function (readErr, data) {
+        // Dockerfile doesn't exist, try and write it
+        if (readErr)
+            fs.writeFile(location, content, function (writeErr) {
+                callback(writeErr, content);
+                return;
+            });
+        // Dockerfile exists and we have permission to overwrite it
+        if (!!replaceExisting)
+            fs.writeFile(location, content, function (writeErr) {
+                callback(writeErr, content);
+                return;
+            });
+        //Dockerfile exists and we do not have permission to overwrite it
+        callback("Error: Dockerfile already exists and do not have permission to overwrite", content);
+        return;
+    });
 }
 function buildInstructionsString(lines) {
     var file = "";

@@ -17,5 +17,9 @@ interface DockerFileBuilder {
 	workDir(path: string): DockerFileBuilder;
 	user(user: string): DockerFileBuilder;
 	onBuild(instructions: string): DockerFileBuilder;
-	write(writeLocation?: string, replaceExisting?: boolean): string;
+	write(writeLocation: string, replaceExisting: boolean, callback: DockerCallback): void;
+}
+
+interface DockerCallback {
+	(error: any, content: string): void;
 }

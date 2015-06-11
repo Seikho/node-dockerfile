@@ -1,4 +1,5 @@
 import fs = require("fs");
+import path = require("path");
 export = Builder;
 
 class Builder implements DockerFileBuilder {
@@ -78,18 +79,36 @@ class Builder implements DockerFileBuilder {
 		return this;
 	}
 	
-	write(location?: string, replaceExisting?: boolean) {
-		//TODO: Refactor
-		var file = buildInstructionsString(this.instructions);
-		writeDockerfile(location, replaceExisting);
-		return file;
+	write(location: string, replaceExisting: boolean, callback: DockerCallback) {
+		var content = buildInstructionsString(this.instructions);
+		writeDockerfile(content, location, replaceExisting, callback);
 	}
 }
 
-function writeDockerfile(location?: string, replaceExisting?: boolean) {
+function writeDockerfile(content: string, location: string, replaceExisting: boolean, callback: DockerCallback) {
 	if (!location) return;
-	
+	var location = path.join(path.resolve(location), "Dockerfile");
+	fs.readFile(location, (readErr, data) => {
+		
+		// Dockerfile doesn't exist, try and write it
+		if (readErr) fs.writeFile(location, content, writeErr => {
+			callback(writeErr, content);
+			return;
+		});
+		
+		// Dockerfile exists and we have permission to overwrite it
+		if (!!replaceExisting) fs.writeFile(location, content, writeErr => {
+			callback(writeErr, content);
+			return;
+		});
+		
+		//Dockerfile exists and we do not have permission to overwrite it
+		callback("Error: Dockerfile already exists and do not have permission to overwrite", content);
+		return;
+	});
 }
+
+
 
 function buildInstructionsString(lines: {command: string, instruction: string}[]) {
 	var file = "";
