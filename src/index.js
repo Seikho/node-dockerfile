@@ -63,6 +63,14 @@ var Builder = (function () {
         this.instructions.push(makeInstruction("ONBUILD", instructions));
         return this;
     };
+    Builder.prototype.comment = function (comment) {
+        this.instructions.push(makeInstruction("#", comment));
+        return this;
+    };
+    Builder.prototype.newLine = function () {
+        this.instructions.push(makeInstruction("", ""));
+        return this;
+    };
     Builder.prototype.write = function (location, replaceExisting, callback) {
         var content = buildInstructionsString(this.instructions);
         writeDockerfile(content, location, replaceExisting, callback);
@@ -73,7 +81,7 @@ function writeDockerfile(content, location, replaceExisting, callback) {
     if (!location)
         return;
     var location = path.join(path.resolve(location), "Dockerfile");
-    fs.readFile(location, function (readErr, data) {
+    fs.readFile(location, function (readErr) {
         // Dockerfile doesn't exist, try and write it
         if (readErr)
             fs.writeFile(location, content, function (writeErr) {
@@ -140,4 +148,5 @@ function makeMultiInstructions(command, instructions) {
         return lines;
     }
 }
+var test = new Builder();
 module.exports = Builder;

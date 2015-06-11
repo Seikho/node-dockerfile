@@ -79,6 +79,16 @@ class Builder implements DockerFileBuilder {
 		return this;
 	}
 	
+	comment(comment: string) {
+		this.instructions.push(makeInstruction("#", comment));
+		return this;
+	}
+	
+	newLine() {
+		this.instructions.push(makeInstruction("", ""));
+		return this;
+	}
+	
 	write(location: string, replaceExisting: boolean, callback: DockerCallback) {
 		var content = buildInstructionsString(this.instructions);
 		writeDockerfile(content, location, replaceExisting, callback);
@@ -88,7 +98,7 @@ class Builder implements DockerFileBuilder {
 function writeDockerfile(content: string, location: string, replaceExisting: boolean, callback: DockerCallback) {
 	if (!location) return;
 	var location = path.join(path.resolve(location), "Dockerfile");
-	fs.readFile(location, (readErr, data) => {
+	fs.readFile(location, readErr => {
 		
 		// Dockerfile doesn't exist, try and write it
 		if (readErr) fs.writeFile(location, content, writeErr => {
@@ -165,3 +175,5 @@ function makeMultiInstructions(command: string, instructions: string|string[]) {
 		return lines;
 	}
 }
+
+var test = new Builder();
