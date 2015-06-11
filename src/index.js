@@ -122,3 +122,4 @@ function makeMultiInstructions(command, instructions) {
         return lines;
     }
 }
+module.exports = Builder;

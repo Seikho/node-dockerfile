@@ -1,4 +1,5 @@
 import fs = require("fs");
+export = Builder;
 
 class Builder implements DockerFileBuilder {
 	constructor(){}
