@@ -1,8 +1,14 @@
 {
-	"compilerOptions": {
-		"target": "ES5",
-		"module": "commonjs",
-		"sourceMap": false
-	},
-	"filesGlob":["./src/**/*.ts"]
+    "compilerOptions": {
+        "target": "ES5",
+        "module": "commonjs",
+        "sourceMap": false
+    },
+    "filesGlob": [
+        "./src/**/*.ts"
+    ],
+    "files": [
+        "./src/instructions.ts",
+        "./src/typings/node-dockerfile/node-dockerfile.d.ts"
+    ]
 }
