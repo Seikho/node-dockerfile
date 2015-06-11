@@ -1,5 +1,5 @@
 ### Node-dockerfile
-A small library for programmatic generation of Dockerfiles using NodeJs.  
+A small library for programmatic generation of Dockerfiles using Node.  
 Written in TypeScript
 
 Author: Carl Winkler
