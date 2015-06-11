@@ -77,6 +77,14 @@ myFile.run([
  */
 ```
 
+**comment(comment: string)** Adds a comment to the file
+```javascript
+myFile.comment("This is a comment");
+// # This is a comment
+```
+
+**newLine()** Adds a new line to the Dockerfile -- purely cosmetic
+
 **cmd(instructions: string|string[])**
 ```javascript
 myFile.cmd("node --harmony index.js");
