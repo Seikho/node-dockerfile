@@ -1,0 +1,26 @@
+{
+  "name": "node-dockerfile",
+  "version": "0.1.0",
+  "description": "A dockerfile composer using Node",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seikho/node-dockerfile.git"
+  },
+  "keywords": [
+    "node",
+    "docker",
+    "dockerfile",
+    "builder",
+    "composer"
+  ],
+  "author": "Carl Winkler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/seikho/node-dockerfile/issues"
+  },
+  "homepage": "https://github.com/seikho/node-dockerfile"
+}
