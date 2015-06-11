@@ -83,17 +83,19 @@ function writeDockerfile(content, location, replaceExisting, callback) {
     var location = path.join(path.resolve(location), "Dockerfile");
     fs.readFile(location, function (readErr) {
         // Dockerfile doesn't exist, try and write it
-        if (readErr)
+        if (readErr) {
             fs.writeFile(location, content, function (writeErr) {
                 callback(writeErr, content);
-                return;
             });
+            return;
+        }
         // Dockerfile exists and we have permission to overwrite it
-        if (!!replaceExisting)
+        if (replaceExisting) {
             fs.writeFile(location, content, function (writeErr) {
                 callback(writeErr, content);
-                return;
             });
+            return;
+        }
         //Dockerfile exists and we do not have permission to overwrite it
         callback("Error: Dockerfile already exists and do not have permission to overwrite", content);
         return;
@@ -148,5 +150,4 @@ function makeMultiInstructions(command, instructions) {
         return lines;
     }
 }
-var test = new Builder();
 module.exports = Builder;
