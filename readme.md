@@ -63,7 +63,7 @@ myFile.maintainer("Carl Winkler");
 
 **run(instructions: string|string[])**
 ```javascript
-`myFile.run("apt-get intall -y curl");`
+myFile.run("apt-get intall -y curl");
 // RUN apt-get install -y curl
 
 // We can create multi-line run commands
