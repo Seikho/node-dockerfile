@@ -39,8 +39,7 @@ var Builder = (function () {
         return this;
     };
     Builder.prototype.copy = function (source, destination) {
-        var line = combine(source, destination);
-        this.instructions.push(makeInstruction("COPY", line));
+        this.instructions.push(makeInstruction("COPY", source + " " + destination));
         return this;
     };
     Builder.prototype.entryPoint = function (instructions) {
@@ -84,7 +83,10 @@ function writeDockerfile(content, location, replaceExisting, callback) {
     fs.readFile(location, function (readErr) {
         // Dockerfile doesn't exist, try and write it
         if (readErr) {
-            fs.writeFile(location, content, function (writeErr) {
+            var writeOpts = {
+                encoding: "utf8"
+            };
+            fs.writeFile(location, content, writeOpts, function (writeErr) {
                 callback(writeErr, content);
             });
             return;

@@ -49,8 +49,7 @@ class Builder implements DockerFileBuilder {
 	}
 
 	copy(source: string, destination: string) {
-		var line = combine(source, destination);
-		this.instructions.push(makeInstruction("COPY", line));
+		this.instructions.push(makeInstruction("COPY", source + " " + destination));
 		return this;
 	}
 
@@ -104,7 +103,15 @@ function writeDockerfile(content: string, location: string, replaceExisting: boo
 		
 		// Dockerfile doesn't exist, try and write it
 		if (readErr) {
-			fs.writeFile(location, content, writeErr => {
+			var writeOpts = {
+				encoding: "utf8"
+			};
+			
+			fs.writeFile(
+				location, 
+				content,
+				writeOpts,
+				writeErr => {
 				callback(writeErr, content);
 			});
 			return;
