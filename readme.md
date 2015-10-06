@@ -166,3 +166,11 @@ myFile.write("../my-image", true, function(err, content) {
 	else doSuccessFunction();
 });
 ```
+
+**writeStream()**
+```javascript
+var fs = require('fs');
+
+myFile.writeStream()
+      .pipe(fs.createWriteStream('Dockerfile'));
+```
