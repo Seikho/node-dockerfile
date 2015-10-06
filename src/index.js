@@ -1,5 +1,28 @@
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var fs = require("fs");
 var path = require("path");
+var stream = require("stream");
+var StringStream = (function (_super) {
+    __extends(StringStream, _super);
+    function StringStream(buffer) {
+        _super.call(this);
+        this.buffer = null;
+        this.buffer = buffer;
+    }
+    StringStream.prototype._read = function (size) {
+        if (this.buffer !== null) {
+            this.push(this.buffer);
+            this.buffer = null;
+        }
+        this.push(null);
+    };
+    return StringStream;
+})(stream.Readable);
 var Builder = (function () {
     function Builder() {
         this.instructions = [];
@@ -73,6 +96,10 @@ var Builder = (function () {
     Builder.prototype.write = function (location, replaceExisting, callback) {
         var content = buildInstructionsString(this.instructions);
         writeDockerfile(content, location, replaceExisting, callback);
+    };
+    Builder.prototype.writeStream = function () {
+        var content = buildInstructionsString(this.instructions);
+        return new StringStream(content);
     };
     return Builder;
 })();

@@ -2,7 +2,7 @@ declare module "node-dockerfile" {
 	export = DockerFileBuilder;
 }
 
-declare class DockerFileBuilder {
+declare class DockerFileBuilder {	
 	from(image: string): DockerFileBuilder;
 	maintainer(maintainer: string): DockerFileBuilder;
 	run(instructions: string|string[]): DockerFileBuilder;
@@ -19,7 +19,8 @@ declare class DockerFileBuilder {
 	onBuild(instructions: string): DockerFileBuilder;
 	comment(comment: string): DockerFileBuilder;
 	newLine(): DockerFileBuilder;
-	write(writeLocation: string, replaceExisting: boolean, callback: DockerCallback): void;	
+	write(writeLocation: string, replaceExisting: boolean, callback: DockerCallback): void;
+	writeStream(): NodeJS.ReadableStream;	
 }
 
 interface DockerCallback {

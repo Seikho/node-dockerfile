@@ -1,6 +1,27 @@
 import fs = require("fs");
 import path = require("path");
+import stream = require("stream");
+
 export = Builder;
+
+class StringStream extends stream.Readable {
+	buffer: string = null;
+	
+	constructor(buffer : string) {
+		super();
+		
+		this.buffer = buffer;
+	}
+	
+	_read(size: number): void {
+		if (this.buffer !== null) {
+			this.push(this.buffer);
+			this.buffer = null;
+		}
+		
+		this.push(null);
+	}
+}
 
 class Builder implements DockerFileBuilder {
 	constructor() { }
@@ -91,6 +112,12 @@ class Builder implements DockerFileBuilder {
 	write(location: string, replaceExisting: boolean, callback: DockerCallback) {
 		var content = buildInstructionsString(this.instructions);
 		writeDockerfile(content, location, replaceExisting, callback);
+	}
+	
+	writeStream() {
+		var content = buildInstructionsString(this.instructions);
+
+		return new StringStream(content);
 	}
 }
 
