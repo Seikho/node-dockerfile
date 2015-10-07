@@ -114,7 +114,7 @@ myFile.env("DOCKER_CERT_PATH", "/root/.docker/");
 
 **add(source: string, destination: string)**
 ```javascript
-myFile.add("hom*, "/mydir");
+myFile.add("hom*", "/mydir");
 // ADD hom* /mydir/
 ```
 
