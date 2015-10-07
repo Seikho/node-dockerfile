@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/seikho/node-dockerfile/issues"
   },
-  "homepage": "https://github.com/seikho/node-dockerfile"
+  "homepage": "https://github.com/seikho/node-dockerfile",
+  "devDependencies": {
+    "typescript": "^1.6.2"
+  }
 }
