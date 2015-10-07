@@ -1,10 +1,11 @@
 {
   "name": "node-dockerfile",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "A dockerfile composer using Node",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
