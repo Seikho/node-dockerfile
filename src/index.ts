@@ -4,25 +4,6 @@ import stream = require("stream");
 
 export = Builder;
 
-class StringStream extends stream.Readable {
-    buffer: string = null;
-
-    constructor(buffer: string) {
-        super();
-
-        this.buffer = buffer;
-    }
-
-    _read(size: number): void {
-        if (this.buffer !== null) {
-            this.push(this.buffer);
-            this.buffer = null;
-        }
-
-        this.push(null);
-    }
-}
-
 class Builder implements DockerFileBuilder {
     constructor() { }
     instructions: { command: string, instruction: string }[] = [];
@@ -118,6 +99,25 @@ class Builder implements DockerFileBuilder {
         var content = buildInstructionsString(this.instructions);
 
         return new StringStream(content);
+    }
+}
+
+class StringStream extends stream.Readable {
+    buffer: string = null;
+
+    constructor(buffer: string) {
+        super();
+
+        this.buffer = buffer;
+    }
+
+    _read(size: number): void {
+        if (this.buffer !== null) {
+            this.push(this.buffer);
+            this.buffer = null;
+        }
+
+        this.push(null);
     }
 }
 

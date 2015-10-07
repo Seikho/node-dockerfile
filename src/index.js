@@ -6,22 +6,6 @@ var __extends = (this && this.__extends) || function (d, b) {
 var fs = require("fs");
 var path = require("path");
 var stream = require("stream");
-var StringStream = (function (_super) {
-    __extends(StringStream, _super);
-    function StringStream(buffer) {
-        _super.call(this);
-        this.buffer = null;
-        this.buffer = buffer;
-    }
-    StringStream.prototype._read = function (size) {
-        if (this.buffer !== null) {
-            this.push(this.buffer);
-            this.buffer = null;
-        }
-        this.push(null);
-    };
-    return StringStream;
-})(stream.Readable);
 var Builder = (function () {
     function Builder() {
         this.instructions = [];
@@ -44,7 +28,7 @@ var Builder = (function () {
         return this;
     };
     Builder.prototype.label = function (key, value) {
-        this.instructions.push(makeInstruction("LABEL", key + "=" + value));
+        this.instructions.push(makeInstruction("LABEL", key + " = " + value));
         return this;
     };
     Builder.prototype.expose = function (port) {
@@ -52,7 +36,7 @@ var Builder = (function () {
         return this;
     };
     Builder.prototype.env = function (key, value) {
-        this.instructions.push(makeInstruction("ENV", key + "=" + value));
+        this.instructions.push(makeInstruction("ENV", key + " = " + value));
         return this;
     };
     Builder.prototype.add = function (source, destination) {
@@ -61,7 +45,7 @@ var Builder = (function () {
         return this;
     };
     Builder.prototype.copy = function (source, destination) {
-        this.instructions.push(makeInstruction("COPY", source + " " + destination));
+        this.instructions.push(makeInstruction("COPY", source + " = " + destination));
         return this;
     };
     Builder.prototype.entryPoint = function (instructions) {
@@ -102,6 +86,22 @@ var Builder = (function () {
     };
     return Builder;
 })();
+var StringStream = (function (_super) {
+    __extends(StringStream, _super);
+    function StringStream(buffer) {
+        _super.call(this);
+        this.buffer = null;
+        this.buffer = buffer;
+    }
+    StringStream.prototype._read = function (size) {
+        if (this.buffer !== null) {
+            this.push(this.buffer);
+            this.buffer = null;
+        }
+        this.push(null);
+    };
+    return StringStream;
+})(stream.Readable);
 function writeDockerfile(content, location, replaceExisting, callback) {
     if (!location)
         return;
