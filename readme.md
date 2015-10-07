@@ -114,7 +114,7 @@ myFile.env("DOCKER_CERT_PATH", "/root/.docker/");
 
 **add(source: string, destination: string)**
 ```javascript
-myFile.add("hom*, "/mydir");
+myFile.add("hom*", "/mydir");
 // ADD hom* /mydir/
 ```
 
@@ -165,4 +165,12 @@ myFile.write("../my-image", true, function(err, content) {
 	if (err) doSomethingElse();
 	else doSuccessFunction();
 });
+```
+
+**writeStream()**
+```javascript
+var fs = require('fs');
+
+myFile.writeStream()
+      .pipe(fs.createWriteStream('Dockerfile'));
 ```

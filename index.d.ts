@@ -1,8 +1,4 @@
-declare module "node-dockerfile" {
-	export = DockerFileBuilder;
-}
-
-declare class DockerFileBuilder {	
+export = class DockerFileBuilder {	
 	from(image: string): DockerFileBuilder;
 	maintainer(maintainer: string): DockerFileBuilder;
 	run(instructions: string|string[]): DockerFileBuilder;
