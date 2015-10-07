@@ -51,7 +51,7 @@ class Builder implements DockerFileBuilder {
     }
 
     copy(source: string, destination: string) {
-        this.instructions.push(makeInstruction("COPY", `${source} = ${destination}`));
+        this.instructions.push(makeInstruction("COPY", `${source} ${destination}`));
         return this;
     }
 
