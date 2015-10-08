@@ -1,4 +1,7 @@
 ### Node-dockerfile
+
+[![NPM version](http://img.shields.io/npm/v/node-dockerfile.svg?style=flat)](https://www.npmjs.org/package/node-dockerfile)
+[![Travis build status](https://travis-ci.org/Seikho/node-dockerfile.svg?branch=master)](https://travis-ci.org/Seikho/node-dockerfile)   
 A small library for programmatic generation of Dockerfiles using Node.
 
 Node-dockerfile allows you to dynamically create Dockerfile files.  
