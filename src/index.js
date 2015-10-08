@@ -45,7 +45,7 @@ var Builder = (function () {
         return this;
     };
     Builder.prototype.copy = function (source, destination) {
-        this.instructions.push(makeInstruction("COPY", source + " = " + destination));
+        this.instructions.push(makeInstruction("COPY", source + " " + destination));
         return this;
     };
     Builder.prototype.entryPoint = function (instructions) {
