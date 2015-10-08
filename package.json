@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/seikho/node-dockerfile",
   "devDependencies": {
+    "chai": "^3.3.0",
+    "mocha": "^2.3.3",
     "typescript": "^1.6.2"
   }
 }
