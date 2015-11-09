@@ -36,7 +36,7 @@ var Builder = (function () {
         return this;
     };
     Builder.prototype.env = function (key, value) {
-        this.instructions.push(makeInstruction("ENV", key + " = " + value));
+        this.instructions.push(makeInstruction("ENV", key + " " + value));
         return this;
     };
     Builder.prototype.add = function (source, destination) {
