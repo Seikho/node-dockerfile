@@ -28,7 +28,7 @@ describe('instruction tests', function () {
         expect(emit(b.expose, 8080)).to.equal('EXPOSE 8080\n');
     });
     it('will emit ENV', function () {
-        expect(emit(b.env, 'key', 'value')).to.equal('ENV key = value\n');
+        expect(emit(b.env, 'key', 'value')).to.equal('ENV key value\n');
     });
     it('will emit ADD', function () {
         expect(emit(b.add, '/source', '/destination')).to.equal('ADD ["/source","/destination"]\n');
