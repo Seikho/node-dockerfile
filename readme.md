@@ -17,19 +17,19 @@ npm install node-dockerfile --save
 
 #### Example usage
 ```javascript
-var Builder = require("node-dockerfile");
-var dockerFile = new Builder();
+import { Builder } from 'node-dockerfile'
+const dockerfile = new Builder();
 
 // Let's just add in a bunch of funky commands for a bit of fun
-dockerFile
-	.from("node:0.12.4")
+dockerfile
+	.from("node:6")
 	.newLine()
 	.comment("Clone and install dockerfile")
 	.run([
 		"apt-get install -y git",
 		"git clone https://github.com/seikho/node-dockerfile /code/node-dockerfile"
  	])
-	 .newLine()
+	.newLine()
 	.run(["cd /code/node-dockerfile", "npm install"]);
 	.run("npm install -g http-server")
 	.newLine()
@@ -38,13 +38,13 @@ dockerFile
 	
 // .write takes a callback which takes 'error' and 'content'.
 // Content being the content of the generated filed.
-var cb = function(err, content) {
+const cb = function(err, content) {
 	if (err) console.log("Failed to write: %s", err);
 	else console.log("Successfully wrote the dockerfile!"); 
 }
 // .write takes 3 arguments: 'location', 'replaceExisting' and the callback above.
 
-myFile.write(".", true, cb);
+dockerfile.write(".", true, cb);
 
 // If all goes well...
 // Console: >> 'Successfully wrote to dockerfile!' 
@@ -54,23 +54,23 @@ myFile.write(".", true, cb);
 
 **from(image: string)**
 ```javascript
-myFile.from("ubuntu:latest");
+myFdockerfileile.from("ubuntu:latest");
 // FROM ubuntu:latest  
 ```
 
 **maintainer(maintainerName: string)**
 ```javascript
-myFile.maintainer("Carl Winkler");
+dockerfile.maintainer("Carl Winkler");
 // MAINTAINER Carl Winkler
 ```
 
 **run(instructions: string|string[])**
 ```javascript
-myFile.run("apt-get intall -y curl");
+dockerfile.run("apt-get intall -y curl");
 // RUN apt-get install -y curl
 
 // We can create multi-line run commands
-myFile.run([
+dockerfile.run([
 	"apt-get install -y git",
 	"git clone https://github.com/seikho/node-dockerfile.git"
 ]);
@@ -82,7 +82,7 @@ myFile.run([
 
 **comment(comment: string)** Adds a comment to the file
 ```javascript
-myFile.comment("This is a comment");
+dockerfile.comment("This is a comment");
 // # This is a comment
 ```
 
@@ -90,34 +90,34 @@ myFile.comment("This is a comment");
 
 **cmd(instructions: string|string[])**
 ```javascript
-myFile.cmd("node --harmony index.js");
+dockerfile.cmd("node --harmony index.js");
 // CMD node --harmony index.js
 
-myFile.cmd(["node", "--harmony", "index.js"]);
+dockerfile.cmd(["node", "--harmony", "index.js"]);
 // '["node", "--harmony", "index.js"]'
 ```
 
 **label(key: string, label: string)**
 ```javascript
-myFile.label("someLabel", "someValue");
+dockerfile.label("someLabel", "someValue");
 // LABEL someLabel=someValue
 ```
 
 **expose(port: number)**
 ```javascript
-myFile.expose(8080);
+dockerfile.expose(8080);
 // EXPOSE 8080
 ```
 
 **env(key: string, value: string)**
 ```javascript
-myFile.env("DOCKER_CERT_PATH", "/root/.docker/");
+dockerfile.env("DOCKER_CERT_PATH", "/root/.docker/");
 // ENV DOCKER_CERT_PATH=/root/.docker/
 ```
 
 **add(source: string, destination: string)**
 ```javascript
-myFile.add("hom*", "/mydir");
+dockerfile.add("hom*", "/mydir");
 // ADD hom* /mydir/
 ```
 
@@ -125,55 +125,57 @@ myFile.add("hom*", "/mydir");
 ```javascript
 // current working directory: /home/carl/projects/node-dockerfile
 var dynamicPath = path.resolve("../my-library"); // /home/carl/projects/my-library
-myFile.copy(dynamicPath, "/code/my-library");
+dockerfile.copy(dynamicPath, "/code/my-library");
 // COPY /home/carl/projects/my-library /code/my-library
 ```
 
 **entryPoint(instructions: string|string[])**
 ```javascript
-myFile.entryPoint("top -b");
+dockerfile.entryPoint("top -b");
 // ENTRYPOINT top -b
 
-myFile.entryPoint(["top","-b"]);
+dockerfile.entryPoint(["top","-b"]);
 // ENTRYPOINT ["top", "-b"]
 ```
 
 **volume(volume: string)**
 ```javascript
-myFile.volume("/some/volume");
+dockerfile.volume("/some/volume");
 // VOLUME /some/volume
 ```
 
 **workDir(path: string)**
 ```javascript
-myFile.workDir("/some/volume");
+dockerfile.workDir("/some/volume");
 // WORKDIR /some/volume
 ```
 
 **user(user: string)**
 ```javascript
-myFile.user("carl");
+dockerfile.user("carl");
 // USER carl
 ```
 
 **onBuild(instructions: string)**
 ```javascript
-myFile.onBuild("ADD . /app/src");
+dockerfile.onBuild("ADD . /app/src");
 // ONBUILD ADD . /app/src
 ```
 
 **write(writeLocation: string, replaceExisting: boolean, callback: (error, content) => void))**
+
 ```javascript
-myFile.write("../my-image", true, function(err, content) {
+dockerfile.write("../my-image", true, function(err, content) {
 	if (err) doSomethingElse();
 	else doSuccessFunction();
 });
 ```
 
 **writeStream()**
+
 ```javascript
 var fs = require('fs');
 
-myFile.writeStream()
+dockerfile.writeStream()
       .pipe(fs.createWriteStream('Dockerfile'));
 ```

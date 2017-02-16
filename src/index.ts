@@ -1,12 +1,19 @@
-import fs = require("fs");
-import path = require("path");
-import stream = require("stream");
+import * as fs from 'fs'
+import * as path from 'path'
+import * as stream from 'stream'
 
-export = Builder;
+export type Instruction = {
+    command: string
+    instruction: string
+}
 
-class Builder implements DockerFileBuilder {
-    constructor() { }
-    instructions: { command: string, instruction: string }[] = [];
+export interface DockerCallback {
+	(error: any, content: string): void;
+}
+
+export class Builder {
+
+    instructions: Instruction[] = [];
 
     from(image: string) {
         this.instructions.push(makeInstruction("FROM", image));
@@ -19,7 +26,7 @@ class Builder implements DockerFileBuilder {
     }
 
     run(instructions: string | string[]) {
-        var lines = makeMultiInstructions("RUN", instructions);
+        const lines = makeMultiInstructions("RUN", instructions);
         this.instructions = this.instructions.concat(lines);
         return this;
     }
@@ -103,7 +110,7 @@ class Builder implements DockerFileBuilder {
 }
 
 class StringStream extends stream.Readable {
-    buffer: string = null;
+    buffer: string | null = null;
 
     constructor(buffer: string) {
         super();
@@ -124,10 +131,10 @@ class StringStream extends stream.Readable {
 function writeDockerfile(content: string, location: string, replaceExisting: boolean, callback: DockerCallback) {
     if (!location) return;
 
-    var location = path.join(path.resolve(location), "Dockerfile");
+    const outputFile = path.join(path.resolve(location), "Dockerfile");
 
     fs.readFile(location, readErr => {
-		
+
         // Dockerfile doesn't exist, try and write it
         if (readErr) {
             var writeOpts = {
@@ -143,7 +150,7 @@ function writeDockerfile(content: string, location: string, replaceExisting: boo
                 });
             return;
         }
-		
+
         // Dockerfile exists and we have permission to overwrite it
         if (replaceExisting) {
             fs.writeFile(location, content, writeErr => {
@@ -151,19 +158,16 @@ function writeDockerfile(content: string, location: string, replaceExisting: boo
             });
             return;
         }
-		
+
         //Dockerfile exists and we do not have permission to overwrite it
         callback("Error: Dockerfile already exists and do not have permission to overwrite", content);
         return;
     });
 }
 
-
-
 function buildInstructionsString(lines: { command: string, instruction: string }[]) {
-    var file = "";
-    for (var l in lines) {
-        var line = lines[l];
+    let file = "";
+    for (const line of lines) {
         file += line.command + " " + line.instruction + "\n";
     }
     return file;
@@ -173,8 +177,8 @@ function combine(left: string, right: string) {
     return JSON.stringify([left, right]);
 }
 
-function makeInstruction(command: string, instructions: string | string[] | number) {
-    var line = {
+function makeInstruction(command: string, instructions: string | string[] | number): Instruction {
+    const line = {
         command: command.toUpperCase(),
         instruction: ""
     };
@@ -195,23 +199,21 @@ function makeMultiInstructions(command: string, instructions: string | string[])
         return [makeInstruction(command, instructions)];
     }
 
-    if (instructions instanceof Array) {
-        var lines = [];
-        var lastIndex = instructions.length - 1;
-        for (var i = 0; i < instructions.length; i++) {
-            var instruction = instructions[i];
-			
-            // Only the first line of a multi-line command contains the 'command'.
-            if (i === 0) {
-                lines.push(makeInstruction(command, instruction + " \\"));
-                continue;
-            }
-			
-            // All lines except the first in a multi-line instruction are prefixed with '&&'.
-            // All lines except the last in a multi-line instruction are suffixed with '\'
-            var suffix = i === lastIndex ? "" : " \\";
-            lines.push(makeInstruction("", "&& " + instruction + suffix));
+    const lines: Instruction[] = [];
+    let lastIndex = instructions.length - 1;
+    for (let i = 0; i < instructions.length; i++) {
+        const instruction = instructions[i];
+
+        // Only the first line of a multi-line command contains the 'command'.
+        if (i === 0) {
+            lines.push(makeInstruction(command, instruction + " \\"));
+            continue;
         }
-        return lines;
+
+        // All lines except the first in a multi-line instruction are prefixed with '&&'.
+        // All lines except the last in a multi-line instruction are suffixed with '\'
+        const suffix = i === lastIndex ? "" : " \\";
+        lines.push(makeInstruction("", "&& " + instruction + suffix));
     }
+    return lines;
 }

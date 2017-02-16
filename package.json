@@ -1,12 +1,13 @@
 {
   "name": "node-dockerfile",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "description": "A dockerfile composer using Node",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "mocha"
   },
+  "typings": "src/index.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/seikho/node-dockerfile.git"
@@ -25,8 +26,11 @@
   },
   "homepage": "https://github.com/seikho/node-dockerfile",
   "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.39",
+    "@types/node": "^7.0.5",
     "chai": "^3.3.0",
     "mocha": "^2.3.3",
-    "typescript": "^1.6.2"
+    "typescript": "^2.1.6"
   }
 }
