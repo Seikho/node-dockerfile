@@ -37,7 +37,7 @@ describe('instruction tests', () => {
     });
 
     it('will emit ENV', () => {
-        expect(emit(b.env, 'key', 'value')).to.equal('ENV key value\n')
+        expect(emit(b.env, 'key', 'value')).to.equal('ENV key=value\n')
     });
 
     it('will emit ADD', () => {
