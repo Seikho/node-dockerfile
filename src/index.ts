@@ -46,7 +46,7 @@ export class Builder {
   }
 
   env(key: string, value: string) {
-    this.instructions.push(makeInstruction("ENV", `${key} ${value}`));
+    this.instructions.push(makeInstruction("ENV", `${key}=${value}`));
     return this;
   }
 
