@@ -56,8 +56,8 @@ export class Builder {
     return this;
   }
 
-  arg(key: string, value: string) {
-    this.instructions.push(makeInstruction("ARG", `${key}=${value}`))
+  arg(key: string, value?: string) {
+    this.instructions.push(makeInstruction("ARG", `${key}=${value || ''}`))
   }
 
   copy(source: string, destination: string) {

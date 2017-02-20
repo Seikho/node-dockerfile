@@ -109,6 +109,13 @@ dockerfile.expose(8080);
 // EXPOSE 8080
 ```
 
+**arg(key: string, value: string)**
+```javascript
+dockerfile.arg("user", "docker");
+// ARG user=docker
+```
+
+
 **env(key: string, value: string)**
 ```javascript
 dockerfile.env("DOCKER_CERT_PATH", "/root/.docker/");
