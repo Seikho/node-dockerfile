@@ -32,6 +32,10 @@ describe('instruction tests', () => {
         expect(emit(b.label, 'key', 'value')).to.equal('LABEL key = value\n');
     });
 
+    it('will emit ARG', () => {
+        expect(emit(b.arg, 'key', 'value')).to.equal('ARG key=value\n')
+    })
+
     it('will emit EXPOSE', () => {
         expect(emit(b.expose, 8080)).to.equal('EXPOSE 8080\n');
     });
