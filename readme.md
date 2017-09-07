@@ -24,6 +24,10 @@ const dockerfile = new Builder();
 dockerfile
 	.from("node:6")
 	.newLine()
+	.envs([
+		{ key: 'NODE_ENV', value: 'developlement' },
+		{ key: 'APP_ENV', value: 'dev' }
+	])
 	.comment("Clone and install dockerfile")
 	.run([
 		"apt-get install -y git",
@@ -32,6 +36,7 @@ dockerfile
 	.newLine()
 	.run(["cd /code/node-dockerfile", "npm install"]);
 	.run("npm install -g http-server")
+	.env('NODE_ENV', 'production')
 	.newLine()
 	.workDir("/code/node-dockerfile")
 	.cmd("http-server");
@@ -115,11 +120,19 @@ dockerfile.arg("user", "docker");
 // ARG user=docker
 ```
 
+**envs(pairs: Array<{ key: string, value: string }>)**
+```javascript
+dockerfile.envs([
+		{ key: "DOCKER_CERT_PATH", value: "/root/.docker/" },
+		{ key: "NODE_ENV", value: "DEVELOPMENT" }
+	]);
+// ENV DOCKER_CERT_PATH="/root/.docker/" \ NODE_ENV="development"
+```
 
 **env(key: string, value: string)**
 ```javascript
 dockerfile.env("DOCKER_CERT_PATH", "/root/.docker/");
-// ENV DOCKER_CERT_PATH=/root/.docker/
+// ENV DOCKER_CERT_PATH="/root/.docker/"
 ```
 
 **add(source: string, destination: string)**
