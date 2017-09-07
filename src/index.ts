@@ -45,6 +45,13 @@ export class Builder {
     return this;
   }
 
+  envs(pairs: Array<{ key: string, value: string }>) {
+    const keyPairs = pairs
+      .map(pair => `${pair.key}="${pair.value}"`)
+      .join(' \\ ')
+    this.instructions.push(makeInstruction("ENV", keyPairs))
+  }
+
   env(key: string, value: string) {
     this.instructions.push(makeInstruction("ENV", `${key}="${value}"`));
     return this;

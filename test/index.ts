@@ -84,6 +84,11 @@ describe('instruction tests', () => {
         expect(emit(b.newLine)).to.equal(' \n');
     });
 
+    it('will emit multiple ENV instructions in a single instruction', () => {
+        const output = emit(b.envs, [{ key: 'foo', value: 'bar' }, { key: 'baz', value: 'qux' }])
+        expect(output).to.equal(`ENV foo="bar" \\ baz="qux"\n`)
+    })
+
 });
 
 function emit(command: (...args: any[]) => any, ...instructions: any[]) {
