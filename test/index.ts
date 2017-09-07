@@ -86,7 +86,7 @@ describe('instruction tests', () => {
 
     it('will emit multiple ENV instructions in a single instruction', () => {
         const output = emit(b.envs, [{ key: 'foo', value: 'bar' }, { key: 'baz', value: 'qux' }])
-        expect(output).to.equal(`ENV foo="bar" \\ baz="qux"\n`)
+        expect(output).to.equal(`ENV foo="bar" \\\n baz="qux"\n`)
     })
 
 });

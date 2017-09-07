@@ -48,7 +48,7 @@ export class Builder {
   envs(pairs: Array<{ key: string, value: string }>) {
     const keyPairs = pairs
       .map(pair => `${pair.key}="${pair.value}"`)
-      .join(' \\ ')
+      .join(' \\\n ')
     this.instructions.push(makeInstruction("ENV", keyPairs))
   }
 
